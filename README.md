@@ -21,3 +21,20 @@ Using bitbucket, clone a repo into  the agent build directory using the local mi
 clone
 
 ```
+
+Now switch to the build repo, create a branch make changes, etc.
+
+If you want to push that branch run:
+
+
+
+```bash
+./clone_repo.sh \
+# --build is the temporary build directory. this will add the repo dir there
+--build /tmp/mirror/build \
+# --mirror is the directory that contains all the local mirror (cache) repos
+--mirror /tmp/mirror/mirror \
+# the stas remote to clone
+--remote https://"${STASH_USERNAME}":${STASH_PAT}@"${STASH_REPO}" \
+# push commmand 
+push
