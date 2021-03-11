@@ -119,21 +119,23 @@ function short_repo() {
 }
 
 function create_or_update_mirror() {
-  set +e
-  git -C "${mirror}" clone --mirror "${remote}"
-  ret=$?
-  set -e
-
-  if [ $ret -ne 0 ]; then
-    msg "${YELLOW}Clone failed. Trying to update instead${NOFORMAT}"
+  if [ ! -d "${mirror}/${short}.git" ] 
+  then
+    msg "${GREEN}Creating local mirror clone: ${mirror}/${short}.git${NOFORMAT}"
+    git -C "${mirror}" clone --mirror "${remote}"
+  else
+    msg "${GREEN}Updating local mirror clone: ${mirror}/${short}.git${NOFORMAT}"
     git -C "${mirror}/${short}.git" fetch "${remote}" --prune
   fi
+  msg "${GREEN}Cloning ${build}/${short} from local mirror: ${mirror}/${short}.git${NOFORMAT}"
   git -C "${build}" clone "${mirror}/${short}.git"
 }
 
 function push_build_changes() {
   current_branch="$(git -C "${build_repo}" branch --show-current)"
+  msg "${GREEN}Push branch (${current_branch}) in build repo ${build_repo} to local mirror ${mirror}/${short}.git${NOFORMAT}"
   git -C "${build_repo}" push -u origin "${current_branch}"
+  msg "${GREEN}Push local mirror ${mirror}/${short}.git to remote${NOFORMAT}"
   git -C "${mirror}/${short}.git" push
 }
 
