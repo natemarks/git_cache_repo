@@ -125,7 +125,7 @@ function create_or_update_mirror() {
     git -C "${mirror}" clone --mirror "${remote}"
   else
     msg "${GREEN}Updating local mirror clone: ${mirror}/${short}.git${NOFORMAT}"
-    git -C "${mirror}/${short}.git" fetch "${remote}" --prune
+    git -C "${mirror}/${short}.git" fetch "${remote}" --prune --all
   fi
   msg "${GREEN}Cloning ${build}/${short} from local mirror: ${mirror}/${short}.git${NOFORMAT}"
   git -C "${build}" clone "${mirror}/${short}.git"
