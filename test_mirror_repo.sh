@@ -22,6 +22,14 @@ mirror_dir=$(mktemp -d)
 --remote https://"${STASH_USERNAME}":"${STASH_PAT}"@"${STASH_REPO}" \
 clone
 
+
+./mirror_repo.sh \
+--build "${build_dir}" \
+--mirror "${mirror_dir}" \
+--remote https://"${STASH_USERNAME}":"${STASH_PAT}"@"${STASH_REPO}" \
+clone
+
+
 cat << EOF
 Rn these to cleanup:
 rm -rf ${build_dir}
@@ -45,3 +53,4 @@ git -C "${build_dir}/${short}" commit -am "${test_data}"
 --mirror "${mirror_dir}" \
 --remote https://"${STASH_USERNAME}":"${STASH_PAT}"@"${STASH_REPO}" \
 push
+
